@@ -1,0 +1,23 @@
+html, body {
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+
+input {
+    border: 1px solid grey;
+    padding: 2.5px;
+}
+
+.header-cell, .key-cell {
+    text-align: center;
+    background-color: #06d30d;
+    color: white;
+}
+
+.key-cell {
+    width: 24px;
+}
