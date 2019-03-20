@@ -1,22 +1,24 @@
 class Table {
     constructor(rows, columns) {
+        this.rows = rows;
+        this.columns = columns;
         this.createTableElement(rows, columns);
     }
 
-    createTableElement(rows, columns) {
+    createTableElement() {
         const table = document.createElement('table');
 
-        for(let i = 0; i <= rows; i++) {
-            table.appendChild(this.createRowElement(i, columns));
+        for(let i = 0; i <= this.rows; i++) {
+            table.appendChild(this.createRowElement(i));
         }
 
         document.querySelector('main').innerHTML = '';
         document.querySelector('main').appendChild(table);
     }
 
-    createRowElement(i, columns) {
+    createRowElement(i) {
         const tr = document.createElement('tr');
-        for(let j = 0; j <= columns; j++) {
+        for(let j = 0; j <= this.columns; j++) {
             tr.appendChild(this.createCellElement(i, j));
         }
         return tr;
@@ -56,11 +58,18 @@ class Table {
     createDefaultCellElement(i, j) {
         const that = this;
         const cell = document.createElement('input');
-        cell.classList.add(String.fromCharCode(64 + j));
+        const columnName = String.fromCharCode(64 + j);
+        cell.classList.add(columnName);
         cell.addEventListener('change', function() {
             if(cell.value.charAt(0) == '=') {
                 cell.value = that.getFormulaResult(cell.value.substr(1, cell.value.length - 1));
             }
+        });
+        cell.addEventListener('keydown', function(e) {
+            if(e.key == 'ArrowUp' && i > 1)
+                document.querySelectorAll('.' + columnName)[i - 1].focus();
+            else if(e.key == 'ArrowDown' && i < that.rows)
+                document.querySelectorAll('.' + columnName)[i + 1].focus();
         });
         return cell;
     }
